@@ -7,9 +7,9 @@ import { TAB_ID } from './tab-id.injector';
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+	styleUrls: ['./app.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
-// tslint:disable:variable-name
 export class AppComponent {
 	private readonly _message = new Subject<string>();
 
@@ -24,13 +24,13 @@ export class AppComponent {
 	) { }
 
 	onClick(): void {
-
-		chrome.tabs.sendMessage(this.tabId,'GET_DUCK', message => {
+		chrome.tabs.sendMessage(this.tabId,'GET_DATA', message => {
 			this._message.next(
 				chrome.runtime.lastError
 					? `The current page is protected by the browser or try to refresh the current page...`
 					: message
 			);
+			this._changeDetector.detectChanges();
 		});
 	}
 }

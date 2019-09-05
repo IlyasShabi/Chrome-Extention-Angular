@@ -1,6 +1,12 @@
 setTimeout(function() {
-    /* Example: Send data from the page to your Chrome extension */
-    document.dispatchEvent(new CustomEvent('RW759_connectExtension', {
-        detail: "cccccc" // Some variable from Gmail.
+    document.dispatchEvent(new CustomEvent('globalVarsListener', {
+        detail: {
+            shopifyData: JSON.stringify(window['ShopifyAnalytics']),
+            fbData: functionToStr(window['fbq'])
+        }
     }));
 }, 0);
+
+let functionToStr = (objWithFunction: Function) => {
+    return objWithFunction.toString();
+}
